@@ -1,6 +1,6 @@
 -- Admin Commands for Brookhaven with Titlebar Rank Display
 -- Default prefix: ;
--- Commands: tp <player>, goto <player>, to <player>, view <player>, spectate <player>, prefix <new prefix>, cmds, commands, rejoin, reset
+-- Commands: tp <player>, goto <player>, to <player>, view <player>, spectate <player>, prefix <new prefix>, cmds, commands, rejoin, reset, antivoid, infjump
 
 local prefix = ";"
 local player = game.Players.LocalPlayer
@@ -260,8 +260,8 @@ logLayout.Parent = logList
 
 -- Command list panel (for ;cmds and ;commands)
 local commandPanel = Instance.new("Frame")
-commandPanel.Size = UDim2.new(0, 400, 0, 350)
-commandPanel.Position = UDim2.new(0.5, -200, 0.5, -175)
+commandPanel.Size = UDim2.new(0, 450, 0, 450)
+commandPanel.Position = UDim2.new(0.5, -225, 0.5, -225)
 commandPanel.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 commandPanel.BackgroundTransparency = 0.05
 commandPanel.BorderSizePixel = 2
@@ -274,20 +274,20 @@ commandPanelCorner.CornerRadius = UDim.new(0, 10)
 commandPanelCorner.Parent = commandPanel
 
 local commandPanelTitle = Instance.new("TextLabel")
-commandPanelTitle.Size = UDim2.new(1, 0, 0, 35)
+commandPanelTitle.Size = UDim2.new(1, 0, 0, 40)
 commandPanelTitle.Position = UDim2.new(0, 0, 0, 0)
 commandPanelTitle.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 commandPanelTitle.BackgroundTransparency = 0.3
-commandPanelTitle.Text = "COMMANDS"
+commandPanelTitle.Text = "AVAILABLE COMMANDS"
 commandPanelTitle.TextColor3 = Color3.fromRGB(0, 0, 0)
-commandPanelTitle.TextSize = 16
+commandPanelTitle.TextSize = 18
 commandPanelTitle.Font = Enum.Font.GothamBold
 commandPanelTitle.Parent = commandPanel
 
 -- Header row
 local headerFrame = Instance.new("Frame")
-headerFrame.Size = UDim2.new(1, -20, 0, 25)
-headerFrame.Position = UDim2.new(0, 10, 0, 40)
+headerFrame.Size = UDim2.new(1, -20, 0, 30)
+headerFrame.Position = UDim2.new(0, 10, 0, 45)
 headerFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
 headerFrame.BackgroundTransparency = 0.5
 headerFrame.BorderSizePixel = 0
@@ -298,45 +298,56 @@ headerCorner.CornerRadius = UDim.new(0, 5)
 headerCorner.Parent = headerFrame
 
 local headerCmd = Instance.new("TextLabel")
-headerCmd.Size = UDim2.new(0.5, -5, 1, 0)
+headerCmd.Size = UDim2.new(0.45, -5, 1, 0)
 headerCmd.Position = UDim2.new(0, 5, 0, 0)
 headerCmd.BackgroundTransparency = 1
 headerCmd.Text = "COMMAND"
 headerCmd.TextColor3 = Color3.fromRGB(255, 215, 0)
-headerCmd.TextSize = 13
+headerCmd.TextSize = 14
 headerCmd.Font = Enum.Font.GothamBold
 headerCmd.TextXAlignment = Enum.TextXAlignment.Left
 headerCmd.Parent = headerFrame
 
+local headerDesc = Instance.new("TextLabel")
+headerDesc.Size = UDim2.new(0.35, -5, 1, 0)
+headerDesc.Position = UDim2.new(0.45, 0, 0, 0)
+headerDesc.BackgroundTransparency = 1
+headerDesc.Text = "DESCRIPTION"
+headerDesc.TextColor3 = Color3.fromRGB(255, 215, 0)
+headerDesc.TextSize = 14
+headerDesc.Font = Enum.Font.GothamBold
+headerDesc.TextXAlignment = Enum.TextXAlignment.Left
+headerDesc.Parent = headerFrame
+
 local headerRank = Instance.new("TextLabel")
-headerRank.Size = UDim2.new(0.3, -5, 1, 0)
-headerRank.Position = UDim2.new(0.5, 0, 0, 0)
+headerRank.Size = UDim2.new(0.18, -5, 1, 0)
+headerRank.Position = UDim2.new(0.8, 0, 0, 0)
 headerRank.BackgroundTransparency = 1
 headerRank.Text = "REQUIRED RANK"
 headerRank.TextColor3 = Color3.fromRGB(255, 215, 0)
-headerRank.TextSize = 11
+headerRank.TextSize = 12
 headerRank.Font = Enum.Font.GothamBold
 headerRank.TextXAlignment = Enum.TextXAlignment.Center
 headerRank.Parent = headerFrame
 
 local commandList = Instance.new("ScrollingFrame")
-commandList.Size = UDim2.new(1, -20, 1, -85)
-commandList.Position = UDim2.new(0, 10, 0, 70)
+commandList.Size = UDim2.new(1, -20, 1, -90)
+commandList.Position = UDim2.new(0, 10, 0, 80)
 commandList.BackgroundTransparency = 1
 commandList.CanvasSize = UDim2.new(0, 0, 0, 0)
 commandList.Parent = commandPanel
 
 local commandListLayout = Instance.new("UIListLayout")
-commandListLayout.Padding = UDim.new(0, 3)
+commandListLayout.Padding = UDim.new(0, 4)
 commandListLayout.Parent = commandList
 
 local closeButton = Instance.new("TextButton")
-closeButton.Size = UDim2.new(0, 70, 0, 28)
-closeButton.Position = UDim2.new(0.5, -35, 1, -35)
+closeButton.Size = UDim2.new(0, 80, 0, 30)
+closeButton.Position = UDim2.new(0.5, -40, 1, -40)
 closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 closeButton.Text = "CLOSE"
 closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.TextSize = 13
+closeButton.TextSize = 14
 closeButton.Font = Enum.Font.GothamBold
 closeButton.Parent = commandPanel
 
@@ -497,89 +508,120 @@ local function updatePrefixDisplay()
     prefixLabel.Text = "Prefix: " .. prefix .. " | Type " .. prefix .. "cmds"
 end
 
--- Show commands panel
+-- Load Anti-Void (Admin+ rank required - level 70)
+local function loadAntiVoid()
+    if hasPermission(player, "Admin") then
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://pastebin.com/raw/5zcfvyhT"))()
+        end)
+        if success then
+            addLog("Anti-Void loaded successfully (Admin+ rank required)")
+        else
+            addLog("Failed to load Anti-Void: " .. tostring(err))
+        end
+    else
+        addLog("Permission denied: You need Admin+ rank to use Anti-Void")
+    end
+end
+
+-- Load Infinite Jump (Moderator+ rank required - level 60)
+local function loadInfiniteJump()
+    if hasPermission(player, "Moderator") then
+        local success, err = pcall(function()
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/Johan319/fe-infjump-/refs/heads/main/fe%20infjump"))()
+        end)
+        if success then
+            addLog("Infinite Jump loaded successfully (Moderator+ rank required)")
+        else
+            addLog("Failed to load Infinite Jump: " .. tostring(err))
+        end
+    else
+        addLog("Permission denied: You need Moderator+ rank to use Infinite Jump")
+    end
+end
+
+-- Show commands panel (commands sorted by required rank: highest first)
 local function showCommandsPanel()
     -- Clear existing commands
     for _, child in pairs(commandList:GetChildren()) do
         if child:IsA("Frame") then child:Destroy() end
     end
     
+    -- Commands sorted by required rank (highest to lowest)
+    -- Rank order: Admin > Moderator > Member
     local commands = {
-        {cmd = "tp/goto/to <player>", rank = "Moderator"},
-        {cmd = "view/spectate <player>", rank = "Moderator"},
-        {cmd = "prefix <char>", rank = "Moderator"},
-        {cmd = "infjump", rank = "Moderator"},
-        {cmd = "antivoid", rank = "Admin"},
-        {cmd = "rejoin", rank = "Member"},
-        {cmd = "reset", rank = "Member"},
-        {cmd = "cmds", rank = "Member"},
+        -- Admin+ commands (highest rank required)
+        {cmd = "antivoid", desc = "Load anti-void script", rank = "Admin", rankLevel = 70},
+        -- Moderator+ commands
+        {cmd = "tp / goto / to <player>", desc = "Teleport to a player", rank = "Moderator", rankLevel = 60},
+        {cmd = "view / spectate <player>", desc = "Spectate a player (stop with button)", rank = "Moderator", rankLevel = 60},
+        {cmd = "infjump", desc = "Load infinite jump script", rank = "Moderator", rankLevel = 60},
+        {cmd = "prefix <char>", desc = "Change command prefix", rank = "Moderator", rankLevel = 60},
+        -- Member commands (everyone)
+        {cmd = "rejoin", desc = "Rejoin the game", rank = "Member", rankLevel = 10},
+        {cmd = "reset", desc = "Reset your character", rank = "Member", rankLevel = 10},
+        {cmd = "cmds / commands", desc = "Show this command list", rank = "Member", rankLevel = 10},
     }
+    
+    -- Sort commands by rankLevel descending (highest first)
+    table.sort(commands, function(a, b)
+        return a.rankLevel > b.rankLevel
+    end)
     
     for _, cmdInfo in ipairs(commands) do
         local cmdFrame = Instance.new("Frame")
-        cmdFrame.Size = UDim2.new(1, 0, 0, 28)
+        cmdFrame.Size = UDim2.new(1, 0, 0, 35)
         cmdFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
         cmdFrame.BackgroundTransparency = 0.3
         cmdFrame.BorderSizePixel = 0
         cmdFrame.Parent = commandList
         
         local cmdCorner = Instance.new("UICorner")
-        cmdCorner.CornerRadius = UDim.new(0, 4)
+        cmdCorner.CornerRadius = UDim.new(0, 5)
         cmdCorner.Parent = cmdFrame
         
-        -- Command text
+        -- Command text (left column)
         local cmdText = Instance.new("TextLabel")
-        cmdText.Size = UDim2.new(0.5, -5, 1, 0)
+        cmdText.Size = UDim2.new(0.45, -5, 1, 0)
         cmdText.Position = UDim2.new(0, 5, 0, 0)
         cmdText.BackgroundTransparency = 1
         cmdText.Text = cmdInfo.cmd
         cmdText.TextColor3 = Color3.fromRGB(255, 215, 0)
-        cmdText.TextSize = 12
+        cmdText.TextSize = 13
         cmdText.Font = Enum.Font.GothamBold
         cmdText.TextXAlignment = Enum.TextXAlignment.Left
         cmdText.Parent = cmdFrame
         
-        -- Rank text
+        -- Description text (middle column)
+        local descText = Instance.new("TextLabel")
+        descText.Size = UDim2.new(0.35, -5, 1, 0)
+        descText.Position = UDim2.new(0.45, 0, 0, 0)
+        descText.BackgroundTransparency = 1
+        descText.Text = cmdInfo.desc
+        descText.TextColor3 = Color3.fromRGB(200, 200, 200)
+        descText.TextSize = 12
+        descText.Font = Enum.Font.Gotham
+        descText.TextXAlignment = Enum.TextXAlignment.Left
+        descText.Parent = cmdFrame
+        
+        -- Rank requirement text (right column)
         local rankText = Instance.new("TextLabel")
-        rankText.Size = UDim2.new(0.3, -5, 1, 0)
-        rankText.Position = UDim2.new(0.5, 0, 0, 0)
+        rankText.Size = UDim2.new(0.18, -5, 1, 0)
+        rankText.Position = UDim2.new(0.8, 0, 0, 0)
         rankText.BackgroundTransparency = 1
         rankText.Text = cmdInfo.rank
-        rankText.TextColor3 = cmdInfo.rank == "Owner" and Color3.fromRGB(255, 215, 0) or
-                              cmdInfo.rank == "Co-Owner" and Color3.fromRGB(255, 100, 100) or
-                              cmdInfo.rank == "Head Admin" and Color3.fromRGB(0, 150, 255) or
-                              cmdInfo.rank == "Admin" and Color3.fromRGB(0, 255, 100) or
+        rankText.TextColor3 = cmdInfo.rank == "Admin" and Color3.fromRGB(0, 255, 100) or
                               cmdInfo.rank == "Moderator" and Color3.fromRGB(255, 170, 0) or
                               Color3.fromRGB(150, 150, 150)
-        rankText.TextSize = 10
+        rankText.TextSize = 11
         rankText.Font = Enum.Font.GothamBold
         rankText.TextXAlignment = Enum.TextXAlignment.Center
         rankText.Parent = cmdFrame
     end
     
-    commandList.CanvasSize = UDim2.new(0, 0, 0, #commands * 32)
+    commandList.CanvasSize = UDim2.new(0, 0, 0, #commands * 42)
     commandPanel.Visible = true
     if logPanel.Visible then logPanel.Visible = false end
-end
-
--- Load anti-void script (Admin+)
-local function loadAntiVoid()
-    if hasPermission(player, "Admin") then
-        loadstring(game:HttpGet("https://pastebin.com/raw/5zcfvyhT"))()
-        addLog(player.Name .. " [" .. getPlayerRank(player) .. "] loaded Anti-Void")
-    else
-        addLog("Permission denied: Anti-Void requires Admin rank")
-    end
-end
-
--- Load infinite jump script (Moderator+)
-local function loadInfiniteJump()
-    if hasPermission(player, "Moderator") then
-        loadstring(game:HttpGet("https://raw.githubusercontent.com/Johan319/fe-infjump-/refs/heads/main/fe%20infjump"))()
-        addLog(player.Name .. " [" .. getPlayerRank(player) .. "] loaded Infinite Jump")
-    else
-        addLog("Permission denied: Infinite Jump requires Moderator rank")
-    end
 end
 
 -- Command handler
@@ -635,6 +677,26 @@ player.Chatted:Connect(function(msg)
                 addLog("Usage: " .. prefix .. command .. " <player name>")
             end
         
+        -- Anti-Void Command (Admin+)
+        elseif command == "antivoid" then
+            if not hasPermission(player, "Admin") then
+                addLog("Permission denied: " .. player.Name .. " tried to use antivoid (Required: Admin)")
+                return
+            end
+            loadAntiVoid()
+            commandCount = commandCount + 1
+            counterLabel.Text = tostring(commandCount)
+        
+        -- Infinite Jump Command (Moderator+)
+        elseif command == "infjump" then
+            if not hasPermission(player, "Moderator") then
+                addLog("Permission denied: " .. player.Name .. " tried to use infjump (Required: Moderator)")
+                return
+            end
+            loadInfiniteJump()
+            commandCount = commandCount + 1
+            counterLabel.Text = tostring(commandCount)
+        
         -- Prefix Command (Moderator+)
         elseif command == "prefix" then
             if not hasPermission(player, "Moderator") then
@@ -650,14 +712,6 @@ player.Chatted:Connect(function(msg)
                 addLog("Usage: " .. prefix .. "prefix <single character>")
             end
         
-        -- Anti-Void Command (Admin+)
-        elseif command == "antivoid" then
-            loadAntiVoid()
-        
-        -- Infinite Jump Command (Moderator+)
-        elseif command == "infjump" then
-            loadInfiniteJump()
-        
         -- Rejoin Command (Member)
         elseif command == "rejoin" then
             game:GetService("TeleportService"):Teleport(game.PlaceId)
@@ -669,7 +723,7 @@ player.Chatted:Connect(function(msg)
                 addLog(player.Name .. " [" .. getPlayerRank(player) .. "] reset their character")
             end
         
-        -- Commands List (Member+)
+        -- Commands List (Member+ - anyone can see commands)
         elseif command == "cmds" or command == "commands" then
             showCommandsPanel()
             addLog(player.Name .. " [" .. getPlayerRank(player) .. "] viewed the commands list")
@@ -682,4 +736,10 @@ updateBorderColor()
 -- Initial setup
 addLog("=== ADMIN TITLEBAR LOADED ===")
 addLog("Your rank: " .. getPlayerRank(player))
-addLog("Type " .. prefix .. "cmds for commands")
+addLog("Commands: tp, goto, to, view, spectate, antivoid (Admin+), infjump (Mod+), prefix, rejoin, reset, cmds, commands")
+addLog("Click 'logs' (right side) for command history!")
+addLog("Type " .. prefix .. "cmds to see all commands")
+
+print("=== Admin Commands + Titlebar Loaded ===")
+print("Current prefix: " .. prefix)
+print("Your rank: " .. getPlayerRank(player))
