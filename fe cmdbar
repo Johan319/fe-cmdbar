@@ -260,8 +260,8 @@ logLayout.Parent = logList
 
 -- Command list panel (for ;cmds and ;commands)
 local commandPanel = Instance.new("Frame")
-commandPanel.Size = UDim2.new(0, 450, 0, 450)
-commandPanel.Position = UDim2.new(0.5, -225, 0.5, -225)
+commandPanel.Size = UDim2.new(0, 400, 0, 350)
+commandPanel.Position = UDim2.new(0.5, -200, 0.5, -175)
 commandPanel.BackgroundColor3 = Color3.fromRGB(15, 15, 25)
 commandPanel.BackgroundTransparency = 0.05
 commandPanel.BorderSizePixel = 2
@@ -274,20 +274,20 @@ commandPanelCorner.CornerRadius = UDim.new(0, 10)
 commandPanelCorner.Parent = commandPanel
 
 local commandPanelTitle = Instance.new("TextLabel")
-commandPanelTitle.Size = UDim2.new(1, 0, 0, 40)
+commandPanelTitle.Size = UDim2.new(1, 0, 0, 35)
 commandPanelTitle.Position = UDim2.new(0, 0, 0, 0)
 commandPanelTitle.BackgroundColor3 = Color3.fromRGB(255, 215, 0)
 commandPanelTitle.BackgroundTransparency = 0.3
-commandPanelTitle.Text = "AVAILABLE COMMANDS"
+commandPanelTitle.Text = "COMMANDS"
 commandPanelTitle.TextColor3 = Color3.fromRGB(0, 0, 0)
-commandPanelTitle.TextSize = 18
+commandPanelTitle.TextSize = 16
 commandPanelTitle.Font = Enum.Font.GothamBold
 commandPanelTitle.Parent = commandPanel
 
 -- Header row
 local headerFrame = Instance.new("Frame")
-headerFrame.Size = UDim2.new(1, -20, 0, 30)
-headerFrame.Position = UDim2.new(0, 10, 0, 45)
+headerFrame.Size = UDim2.new(1, -20, 0, 25)
+headerFrame.Position = UDim2.new(0, 10, 0, 40)
 headerFrame.BackgroundColor3 = Color3.fromRGB(40, 40, 60)
 headerFrame.BackgroundTransparency = 0.5
 headerFrame.BorderSizePixel = 0
@@ -298,56 +298,45 @@ headerCorner.CornerRadius = UDim.new(0, 5)
 headerCorner.Parent = headerFrame
 
 local headerCmd = Instance.new("TextLabel")
-headerCmd.Size = UDim2.new(0.45, -5, 1, 0)
+headerCmd.Size = UDim2.new(0.5, -5, 1, 0)
 headerCmd.Position = UDim2.new(0, 5, 0, 0)
 headerCmd.BackgroundTransparency = 1
 headerCmd.Text = "COMMAND"
 headerCmd.TextColor3 = Color3.fromRGB(255, 215, 0)
-headerCmd.TextSize = 14
+headerCmd.TextSize = 13
 headerCmd.Font = Enum.Font.GothamBold
 headerCmd.TextXAlignment = Enum.TextXAlignment.Left
 headerCmd.Parent = headerFrame
 
-local headerDesc = Instance.new("TextLabel")
-headerDesc.Size = UDim2.new(0.35, -5, 1, 0)
-headerDesc.Position = UDim2.new(0.45, 0, 0, 0)
-headerDesc.BackgroundTransparency = 1
-headerDesc.Text = "DESCRIPTION"
-headerDesc.TextColor3 = Color3.fromRGB(255, 215, 0)
-headerDesc.TextSize = 14
-headerDesc.Font = Enum.Font.GothamBold
-headerDesc.TextXAlignment = Enum.TextXAlignment.Left
-headerDesc.Parent = headerFrame
-
 local headerRank = Instance.new("TextLabel")
-headerRank.Size = UDim2.new(0.18, -5, 1, 0)
-headerRank.Position = UDim2.new(0.8, 0, 0, 0)
+headerRank.Size = UDim2.new(0.3, -5, 1, 0)
+headerRank.Position = UDim2.new(0.5, 0, 0, 0)
 headerRank.BackgroundTransparency = 1
 headerRank.Text = "REQUIRED RANK"
 headerRank.TextColor3 = Color3.fromRGB(255, 215, 0)
-headerRank.TextSize = 12
+headerRank.TextSize = 11
 headerRank.Font = Enum.Font.GothamBold
 headerRank.TextXAlignment = Enum.TextXAlignment.Center
 headerRank.Parent = headerFrame
 
 local commandList = Instance.new("ScrollingFrame")
-commandList.Size = UDim2.new(1, -20, 1, -90)
-commandList.Position = UDim2.new(0, 10, 0, 80)
+commandList.Size = UDim2.new(1, -20, 1, -85)
+commandList.Position = UDim2.new(0, 10, 0, 70)
 commandList.BackgroundTransparency = 1
 commandList.CanvasSize = UDim2.new(0, 0, 0, 0)
 commandList.Parent = commandPanel
 
 local commandListLayout = Instance.new("UIListLayout")
-commandListLayout.Padding = UDim.new(0, 4)
+commandListLayout.Padding = UDim.new(0, 3)
 commandListLayout.Parent = commandList
 
 local closeButton = Instance.new("TextButton")
-closeButton.Size = UDim2.new(0, 80, 0, 30)
-closeButton.Position = UDim2.new(0.5, -40, 1, -40)
+closeButton.Size = UDim2.new(0, 70, 0, 28)
+closeButton.Position = UDim2.new(0.5, -35, 1, -35)
 closeButton.BackgroundColor3 = Color3.fromRGB(200, 50, 50)
 closeButton.Text = "CLOSE"
 closeButton.TextColor3 = Color3.fromRGB(255, 255, 255)
-closeButton.TextSize = 14
+closeButton.TextSize = 13
 closeButton.Font = Enum.Font.GothamBold
 closeButton.Parent = commandPanel
 
@@ -516,56 +505,44 @@ local function showCommandsPanel()
     end
     
     local commands = {
-        {cmd = "tp / goto / to <player>", desc = "Teleport to a player", rank = "Moderator"},
-        {cmd = "view / spectate <player>", desc = "Spectate a player (stop with button)", rank = "Moderator"},
-        {cmd = "prefix <char>", desc = "Change command prefix", rank = "Moderator"},
-        {cmd = "antivoid", desc = "Anti-void protection", rank = "Admin"},
-        {cmd = "infjump", desc = "Infinite jump ability", rank = "Moderator"},
-        {cmd = "rejoin", desc = "Rejoin the game", rank = "Member"},
-        {cmd = "reset", desc = "Reset your character", rank = "Member"},
-        {cmd = "cmds / commands", desc = "Show this command list", rank = "Member"},
+        {cmd = "tp/goto/to <player>", rank = "Moderator"},
+        {cmd = "view/spectate <player>", rank = "Moderator"},
+        {cmd = "prefix <char>", rank = "Moderator"},
+        {cmd = "infjump", rank = "Moderator"},
+        {cmd = "antivoid", rank = "Admin"},
+        {cmd = "rejoin", rank = "Member"},
+        {cmd = "reset", rank = "Member"},
+        {cmd = "cmds", rank = "Member"},
     }
     
     for _, cmdInfo in ipairs(commands) do
         local cmdFrame = Instance.new("Frame")
-        cmdFrame.Size = UDim2.new(1, 0, 0, 35)
+        cmdFrame.Size = UDim2.new(1, 0, 0, 28)
         cmdFrame.BackgroundColor3 = Color3.fromRGB(30, 30, 45)
         cmdFrame.BackgroundTransparency = 0.3
         cmdFrame.BorderSizePixel = 0
         cmdFrame.Parent = commandList
         
         local cmdCorner = Instance.new("UICorner")
-        cmdCorner.CornerRadius = UDim.new(0, 5)
+        cmdCorner.CornerRadius = UDim.new(0, 4)
         cmdCorner.Parent = cmdFrame
         
-        -- Command text (left column)
+        -- Command text
         local cmdText = Instance.new("TextLabel")
-        cmdText.Size = UDim2.new(0.45, -5, 1, 0)
+        cmdText.Size = UDim2.new(0.5, -5, 1, 0)
         cmdText.Position = UDim2.new(0, 5, 0, 0)
         cmdText.BackgroundTransparency = 1
         cmdText.Text = cmdInfo.cmd
         cmdText.TextColor3 = Color3.fromRGB(255, 215, 0)
-        cmdText.TextSize = 13
+        cmdText.TextSize = 12
         cmdText.Font = Enum.Font.GothamBold
         cmdText.TextXAlignment = Enum.TextXAlignment.Left
         cmdText.Parent = cmdFrame
         
-        -- Description text (middle column)
-        local descText = Instance.new("TextLabel")
-        descText.Size = UDim2.new(0.35, -5, 1, 0)
-        descText.Position = UDim2.new(0.45, 0, 0, 0)
-        descText.BackgroundTransparency = 1
-        descText.Text = cmdInfo.desc
-        descText.TextColor3 = Color3.fromRGB(200, 200, 200)
-        descText.TextSize = 12
-        descText.Font = Enum.Font.Gotham
-        descText.TextXAlignment = Enum.TextXAlignment.Left
-        descText.Parent = cmdFrame
-        
-        -- Rank requirement text (right column)
+        -- Rank text
         local rankText = Instance.new("TextLabel")
-        rankText.Size = UDim2.new(0.18, -5, 1, 0)
-        rankText.Position = UDim2.new(0.8, 0, 0, 0)
+        rankText.Size = UDim2.new(0.3, -5, 1, 0)
+        rankText.Position = UDim2.new(0.5, 0, 0, 0)
         rankText.BackgroundTransparency = 1
         rankText.Text = cmdInfo.rank
         rankText.TextColor3 = cmdInfo.rank == "Owner" and Color3.fromRGB(255, 215, 0) or
@@ -574,13 +551,13 @@ local function showCommandsPanel()
                               cmdInfo.rank == "Admin" and Color3.fromRGB(0, 255, 100) or
                               cmdInfo.rank == "Moderator" and Color3.fromRGB(255, 170, 0) or
                               Color3.fromRGB(150, 150, 150)
-        rankText.TextSize = 11
+        rankText.TextSize = 10
         rankText.Font = Enum.Font.GothamBold
         rankText.TextXAlignment = Enum.TextXAlignment.Center
         rankText.Parent = cmdFrame
     end
     
-    commandList.CanvasSize = UDim2.new(0, 0, 0, #commands * 42)
+    commandList.CanvasSize = UDim2.new(0, 0, 0, #commands * 32)
     commandPanel.Visible = true
     if logPanel.Visible then logPanel.Visible = false end
 end
@@ -692,7 +669,7 @@ player.Chatted:Connect(function(msg)
                 addLog(player.Name .. " [" .. getPlayerRank(player) .. "] reset their character")
             end
         
-        -- Commands List (Member+ - anyone can see commands)
+        -- Commands List (Member+)
         elseif command == "cmds" or command == "commands" then
             showCommandsPanel()
             addLog(player.Name .. " [" .. getPlayerRank(player) .. "] viewed the commands list")
@@ -705,11 +682,4 @@ updateBorderColor()
 -- Initial setup
 addLog("=== ADMIN TITLEBAR LOADED ===")
 addLog("Your rank: " .. getPlayerRank(player))
-addLog("Commands: tp, goto, to, view, spectate, prefix, antivoid, infjump, rejoin, reset, cmds, commands")
-addLog("Rank required for admin commands: Moderator+")
-addLog("Click 'logs' (right side) for command history!")
-addLog("Type " .. prefix .. "cmds to see all commands")
-
-print("=== Admin Commands + Titlebar Loaded ===")
-print("Current prefix: " .. prefix)
-print("Your rank: " .. getPlayerRank(player))
+addLog("Type " .. prefix .. "cmds for commands")
